@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "d636f38b-911f-4810-948b-cbe0e665d6ad",
+		"name": "Travis Lab",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29259896"
+	},
+	"item": [
+		{
+			"name": "Create Issue",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const issueBody = pm.variables.replaceIn(\"{{$randomBs}}\");",
+							"pm.collectionVariables.set(\"issueBody\", issueBody);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Test body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.body).to.eql(pm.collectionVariables.get(\"issueBody\"));",
+							"});",
+							"",
+							"pm.test(\"Check labels\", function () {",
+							"    pm.expect(jsonData[\"labels\"][0].name).to.eql(\"bug\");",
+							"});",
+							"",
+							"console.log(jsonData.labels[0].name);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"New issue\",\n    \"body\": \"{{issueBody}}\",\n    \"labels\": [\"bug\", \"urgent\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.github.com/repos/:owner/:repo/issues",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"repos",
+						":owner",
+						":repo",
+						"issues"
+					],
+					"variable": [
+						{
+							"key": "owner",
+							"value": "{{owner}}"
+						},
+						{
+							"key": "repo",
+							"value": "TravisCILab"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get repository",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200!  Yay!\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/repos/:owner/:repo",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"repos",
+						":owner",
+						":repo"
+					],
+					"variable": [
+						{
+							"key": "owner",
+							"value": "{{owner}}"
+						},
+						{
+							"key": "repo",
+							"value": "TravisCILab"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "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"
+		},
+		{
+			"key": "repositoryName",
+			"value": "TravisCILab"
+		},
+		{
+			"key": "owner",
+			"value": "bdahlstrom"
+		},
+		{
+			"key": "issueBody",
+			"value": ""
+		},
+		{
+			"key": "newRepositoryName",
+			"value": ""
+		}
+	]
+}
