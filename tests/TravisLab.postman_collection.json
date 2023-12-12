@@ -131,7 +131,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "{{token}}",
+				"value": "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",
 				"type": "string"
 			}
 		]
