@@ -114,7 +114,7 @@
 					"variable": [
 						{
 							"key": "owner",
-							"value": "{{owner}}"
+							"value": "bdahlstrom"
 						},
 						{
 							"key": "repo",
